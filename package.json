@@ -1,0 +1,49 @@
+{
+  "name": "invoice",
+  "version": "1.0.0",
+  "description": "Stores and serves invoices",
+  "main": "server.js",
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ]
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/baembry/2uAssessment.git"
+  },
+  "author": "Brian Embry",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/baembry/2uAssessment/issues"
+  },
+  "homepage": "https://github.com/baembry/2uAssessment#readme",
+  "dependencies": {
+    "babel-preset-react": "^6.24.1",
+    "bluebird": "^3.5.5",
+    "body-parser": "^1.19.0",
+    "core-js": "^3.2.1",
+    "express": "^4.17.1",
+    "mysql": "^2.17.1",
+    "mysql2": "^1.7.0",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "regenerator-runtime": "^0.13.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^3.2.0",
+    "live-server": "^1.2.1",
+    "style-loader": "^1.0.0",
+    "webpack": "^4.40.2",
+    "webpack-cli": "^3.3.2"
+  }
+}
