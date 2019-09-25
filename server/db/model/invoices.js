@@ -1,5 +1,5 @@
 const db = require("../index");
-
+const faker = require("faker");
 module.exports = {
   post: {
     async invoice({
@@ -21,7 +21,7 @@ module.exports = {
         vendor_name,
         remittance_address
       ]);
-      console.log(result);
+      return result;
     }
   },
 
@@ -45,7 +45,30 @@ module.exports = {
             SET approved = 1
             WHERE invoice_number IN ${invoiceNumbersString}`;
       const result = await db.queryAsync(queryString);
-      console.log(result);
+      return result;
     }
+  },
+  async seed() {
+    let fakeInvoices = [];
+    fakeInvoices.length = 5;
+    fakeInvoices.fill({});
+    fakeInvoices = fakeInvoices.map(_ => {
+      const invoice = {
+        invoice_number: faker.random.number(),
+        total: faker.finance.amount(),
+        currency: "USD",
+        invoice_date: faker.date.recent(),
+        due_date: faker.date.future(),
+        vendor_name: faker.company.companyName(),
+        remittance_address:
+          faker.address.streetAddress() +
+          " " +
+          faker.address.city() +
+          " " +
+          faker.address.zipCode()
+      };
+      return this.post.invoice(invoice);
+    });
+    return await Promise.all(fakeInvoices);
   }
 };

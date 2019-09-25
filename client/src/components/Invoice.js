@@ -9,16 +9,15 @@ export default function Invoice(props) {
     vendor_name,
     remittance_address
   } = props.invoiceData;
-  const addToApproveList = props.addToApproveList;
+  const { toggleSelectInvoice, selected } = props;
+  const classes = ["invoice", selected ? "selected" : null];
   return (
-    <tr>
-      <td>
-        <input
-          type="checkbox"
-          data-invoice={invoice_number}
-          onChange={event => addToApproveList(event)}
-        ></input>
-      </td>
+    <tr
+      className={classes.join(" ")}
+      onClick={() => {
+        toggleSelectInvoice(invoice_number);
+      }}
+    >
       <td>{invoice_number}</td>
       <td>{vendor_name}</td>
       <td>{remittance_address}</td>

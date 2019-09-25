@@ -2,6 +2,11 @@ import React, { Component } from "react";
 import "regenerator-runtime/runtime";
 import "core-js/stable";
 import styles from "../styles/index.css";
+
+import http from "../../services/http";
+import io from "socket.io-client";
+const socket = io();
+
 import Invoice from "./Invoice";
 
 class App extends Component {
@@ -11,48 +16,73 @@ class App extends Component {
       unapprovedInvoices: [],
       invoiceNumbersToApprove: {}
     };
+    socket.on("updateUnapprovedInvoices", () => {
+      this.getUnapprovedInvoices();
+    });
   }
-  async componentDidMount() {
-    const response = await fetch("/invoices/unapproved");
-    const unapprovedInvoices = await response.json();
-    console.log(unapprovedInvoices);
+  componentDidMount() {
+    this.getUnapprovedInvoices();
+  }
+
+  async getUnapprovedInvoices() {
+    const unapprovedInvoices = await http.invoices.get.unapproved();
+    console.log("unapprovedInvoices ", unapprovedInvoices);
     this.setState({ unapprovedInvoices });
   }
 
-  addToApproveList(event) {
-    const invoiceNumber = event.target.dataset.invoice;
+  toggleSelectInvoice(invoiceNumber) {
     const invoiceNumbersToApprove = { ...this.state.invoiceNumbersToApprove };
-    if (event.target.checked) {
-      invoiceNumbersToApprove[invoiceNumber] = true;
-    } else {
+    if (invoiceNumbersToApprove[invoiceNumber]) {
       delete invoiceNumbersToApprove[invoiceNumber];
+    } else {
+      invoiceNumbersToApprove[invoiceNumber] = true;
     }
-    console.log(invoiceNumbersToApprove);
     this.setState({ invoiceNumbersToApprove });
+  }
+
+  async approveInvoices() {
+    let invoices = { ...this.state.invoiceNumbersToApprove };
+    invoices = Object.keys(invoices);
+    await http.invoices.approve(invoices);
+    await this.getUnapprovedInvoices();
+  }
+
+  async makeInvoices() {
+    console.log("making invoices...");
+    const response = await http.invoices.post.fakeInvoices();
+    console.log(response);
   }
 
   render() {
     return (
       <>
-        <h2>Unapproved Invoices</h2>
+        <h2>{this.state.unapprovedInvoices.length} Unapproved Invoices</h2>
         <table>
           <tr>
-            <th>Select</th>
             <th>Invoice Number</th>
             <th>Vendor Name</th>
             <th>Vendor Address</th>
             <th>Invoice Total</th>
             <th>Invoice Date</th>
             <th>Due Date</th>
-            <th>Approve</th>
           </tr>
           {this.state.unapprovedInvoices.map(invoiceData => (
             <Invoice
+              key={Math.random()}
               invoiceData={invoiceData}
-              addToApproveList={this.addToApproveList.bind(this)}
+              toggleSelectInvoice={this.toggleSelectInvoice.bind(this)}
+              selected={
+                this.state.invoiceNumbersToApprove[invoiceData.invoice_number]
+              }
             />
           ))}
         </table>
+        <button onClick={this.approveInvoices.bind(this)}>
+          Approve Selected Invoices
+        </button>
+        <button onClick={this.makeInvoices.bind(this)}>
+          Make 5 Fake Invoices
+        </button>
       </>
     );
   }

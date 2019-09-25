@@ -1,7 +1,15 @@
+table {
+  border-collapse: collapse;
+}
 td {
   padding: 1rem;
+  border: none;
 }
 
-table {
-  border: 1px solid black;
+.invoice {
+  cursor: pointer;
+}
+
+.selected {
+  background-color: #ffcae1;
 }
