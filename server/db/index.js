@@ -3,7 +3,7 @@ async function connect() {
   const mysql = require("mysql");
   const Promise = require("bluebird");
 
-  const connection = mysql.createConnection({
+  const connection = mysql.createPool({
     host: "remotemysql.com",
     user: "W5FtsMXsvd",
     password: "plbWzQuknD",
@@ -12,13 +12,6 @@ async function connect() {
 
   Promise.promisifyAll(connection);
 
-  connection.connect(error => {
-    if (error) {
-      console.error("Error connecting to database: ", error);
-    } else {
-      console.log("Connected to database");
-    }
-  });
   tryCatch(async () => {
     connection.queryAsync(`CREATE TABLE IF NOT EXISTS invoices (
             invoice_number INT NOT NULL PRIMARY KEY,
@@ -31,7 +24,6 @@ async function connect() {
             approved BOOLEAN DEFAULT 0
         )`);
   });
-  connection.on("error", connect());
   module.exports = connection;
 }
 
