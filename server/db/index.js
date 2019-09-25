@@ -1,5 +1,5 @@
 const tryCatch = require("../utils/tryCatch");
-async function main() {
+async function connect() {
   const mysql = require("mysql");
   const Promise = require("bluebird");
 
@@ -31,8 +31,8 @@ async function main() {
             approved BOOLEAN DEFAULT 0
         )`);
   });
-
+  connection.on("error", connect());
   module.exports = connection;
 }
 
-main();
+connect();
