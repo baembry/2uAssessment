@@ -64,16 +64,13 @@ app.post("/invoices/seed", async (req, res) => {
 app.put("/invoices/approve", async (req, res) => {
   tryCatch(async () => {
     const invoiceNumbers = req.body.invoiceNumbers;
+    if (invoiceNumbers.length === 0) {
+      res.status(400).send({ message: "Select some invoices to approve" });
+      return;
+    }
     await invoicesModel.put.approve(invoiceNumbers);
     res.status(200).send({ message: "Invoices Approved" });
   }, res);
 });
-
-// app.get("/bundle.js", (req, res) => {
-//   res.sendFile(path.resolve(__dirname + "/../dist/bundle.js"));
-// });
-// app.get("/", (req, res) => {
-//   res.sendFile(path.resolve(__dirname + "/../dist/index.html"));
-// });
 
 http.listen(port, () => console.log(`2ULaundry listening on port ${port}!`));
