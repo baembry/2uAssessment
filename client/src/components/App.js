@@ -55,7 +55,7 @@ class App extends Component {
 
   render() {
     return (
-      <>
+      <div className="invoice-table">
         <h2>{this.state.unapprovedInvoices.length} Unapproved Invoices</h2>
         <table>
           <tr>
@@ -83,7 +83,7 @@ class App extends Component {
         <button onClick={this.makeInvoices.bind(this)}>
           Make 5 Fake Invoices
         </button>
-      </>
+      </div>
     );
   }
 }
