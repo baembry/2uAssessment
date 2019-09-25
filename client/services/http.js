@@ -1,5 +1,5 @@
 import tryFetch from "../utils/tryFetch";
-const apiRoot = "http://localhost:3000";
+const apiRoot = "";
 
 export default {
   invoices: {
