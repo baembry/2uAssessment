@@ -1,5 +1,9 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
 table {
   border-collapse: collapse;
+  margin: auto;
 }
 td {
   padding: 1rem;

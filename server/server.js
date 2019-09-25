@@ -63,7 +63,6 @@ app.post("/invoices/seed", async (req, res) => {
 app.put("/invoices/approve", async (req, res) => {
   tryCatch(async () => {
     const invoiceNumbers = req.body.invoiceNumbers;
-    console.log(invoiceNumbers);
     await invoicesModel.put.approve(invoiceNumbers);
     res.status(200).send({ message: "Invoices Approved" });
   }, res);

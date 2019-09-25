@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import "regenerator-runtime/runtime";
 import "core-js/stable";
+
+//import styles for webpack bundler
 import styles from "../styles/index.css";
 
 import http from "../../services/http";
@@ -48,9 +50,7 @@ class App extends Component {
   }
 
   async makeInvoices() {
-    console.log("making invoices...");
     const response = await http.invoices.post.fakeInvoices();
-    console.log(response);
   }
 
   render() {
