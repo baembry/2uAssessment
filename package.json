@@ -11,7 +11,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --watch & live-server --port=3030 --watch=dist --open=dist"
+    "dev-build": "webpack --watch & live-server --port=3030 --watch=dist --open=dist",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
