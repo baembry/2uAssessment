@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const path = require("path");
 const cors = require("cors");
 var http = require("http").createServer(app);
 var io = require("socket.io")(http);
@@ -17,12 +18,12 @@ const bodyParser = require("body-parser");
 //for development only
 const corsOptions = {
   origin: "http://127.0.0.1:3030",
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  optionsSuccessStatus: 200
 };
 
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
-app.use(express.static("../dist"));
+app.use(express.static(path.resolve(__dirname + "/../dist")));
 
 io.on("connection", function(socket) {
   console.log("a user connected");
@@ -67,5 +68,12 @@ app.put("/invoices/approve", async (req, res) => {
     res.status(200).send({ message: "Invoices Approved" });
   }, res);
 });
+
+// app.get("/bundle.js", (req, res) => {
+//   res.sendFile(path.resolve(__dirname + "/../dist/bundle.js"));
+// });
+// app.get("/", (req, res) => {
+//   res.sendFile(path.resolve(__dirname + "/../dist/index.html"));
+// });
 
 http.listen(port, () => console.log(`2ULaundry listening on port ${port}!`));
