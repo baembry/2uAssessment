@@ -4,7 +4,7 @@ const cors = require("cors");
 var http = require("http").createServer(app);
 var io = require("socket.io")(http);
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 const invoicesModel = require("./db/model/invoices");
 
